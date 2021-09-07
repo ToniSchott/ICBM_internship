@@ -11,11 +11,11 @@ library(tidyverse)
 
 #import cellvolume data
 
-size <- read_excel("Rdata_030821/Rawdata/Rawdata_Staurastrum.xlsx", "Cellvolume") #nur das 4. worksheet "Cellvolume" einladen
-size_imagej<-read_excel("Rdata_030821/Rawdata/cellsize_ImageJ.xlsx")#Image J Datensatz einlesen:
+size <- read_excel("Rawdata_Staurastrum.xlsx", "Cellvolume") #nur das 4. worksheet "Cellvolume" einladen
+size_imagej<-read_excel("cellsize_ImageJ.xlsx")#Image J Datensatz einlesen:
 
 #Tabelle mit allen zusätzlich benoetigten Spalten einladen
-data_table <- read_excel("Rdata_030821/Rawdata/Rawdata_Staurastrum.xlsx", "ID")
+data_table <- read_excel("Rawdata_Staurastrum.xlsx", "ID")
 
 #unnecessary columns löschen in cell volume Tabelle:
 size<-select(size,1:6)
@@ -38,7 +38,7 @@ names(data_cellvolume)
 names(data_cellvolume)<-c("bottle","individuum","d1","h","d2","arm","cellvolume","ID","plankto","temp","light","nutlevel","N","P","NPratio")
 
 #save data as cellvolume.txt
-write.csv(x=data_cellvolume, file = "Rdata_030821/Rtables/staurastrum_cellvolume.txt")
+write.csv(x=data_cellvolume, file = "staurastrum_cellvolume.txt")
 
 
 #Cellvolume Median berechnen für jede Bottle und damit einen neuen Datensatz (Celvolume_Median) erstellen:
@@ -48,14 +48,14 @@ cellvolume_median<- group_by(data_cellvolume,temp,light,N,P,bottle)%>%
 hist(data_cellvolume$cellvolume)
 
 #save median data:
-write.csv(x= cellvolume_median, file = "Rdata_030821/Rtables/median_cellvolume.txt")
+write.csv(x= cellvolume_median, file = "median_cellvolume.txt")
 
 #### data structure cell counts ####
 
 # import data sets
-data_cellcount <- read_excel("Rdata_030821/Rawdata/Rawdata_Staurastrum.xlsx", "Cellcount")
-data_filtration<-read_excel("Rdata_030821/Rawdata/Rawdata_Staurastrum.xlsx", "Filtration")#für letzten Tag
-data_ID<-read_excel("Rdata_030821/Rawdata/Rawdata_Staurastrum.xlsx", "ID")#für Treatments für letzten Tag
+data_cellcount <- read_excel("Rawdata_Staurastrum.xlsx", "Cellcount")
+data_filtration<-read_excel("Rawdata_Staurastrum.xlsx", "Filtration")#für letzten Tag
+data_ID<-read_excel("Rawdata_Staurastrum.xlsx", "ID")#für Treatments für letzten Tag
 
 # rename and filter important columns:
 data_filtration<-select(data_filtration,Bottle,day)
@@ -95,7 +95,7 @@ counts<- mutate(counts, cells_ml = (Counts*63.9)/(1*1*GF*0.5))
 
 
 #### Save dataframe as staurastrum_cellcount.txt für weitere Analysen ####
-write.csv(x= counts, file = "Rdata_030821/Rtables/staurastrum_cellcount.txt")
+write.csv(x= counts, file = "staurastrum_cellcount.txt")
 
 
 #### counts growthrate ####
@@ -107,4 +107,4 @@ growth<-counts %>%
   summarise(r = (log(cells_ml[Day==max(Day)]) -log(cells_ml[Day==0])) / max(Day))
 
 #write table
-write.csv(x= growth, file = "Rdata_030821/Rtables/growthrate_cellcounts.txt")
+write.csv(x= growth, file = "growthrate_cellcounts.txt")
