@@ -10,7 +10,7 @@ library(ggpubr)
 
 ####Growth rate with cell count data####
 #import data:
-growth<-read.csv("Rdata_030821/Rtables/growthrate_cellcounts.txt")
+growth<-read.csv("growthrate_cellcounts.txt")
 growth<-select(growth,-X)
 
 # look for normality in the data ->  hist(data) & qqnorm(data)
@@ -28,7 +28,7 @@ summary(aov_r)
 rm(list=ls())
 
 #import data:
-volume<-read.csv("Rdata_030821/Rtables/median_cellvolume.txt")
+volume<-read.csv("median_cellvolume.txt")
 volume<-select(volume,-X)
 volume<- rename(volume, Nitrogen = N, Phosphat = P, Light= light, Temperature = temp)
 
@@ -46,7 +46,7 @@ summary(aov_volume)
 ####Carrying capacity####
 
 #import data:
-data_cc<-read.csv("Rdata_030821/Rtables/staurastrum_cellcount.txt")
+data_cc<-read.csv("staurastrum_cellcount.txt")
 data_end <- filter(data_cc, Day >=21)
 data_end <- select(data_end, -X)
 
